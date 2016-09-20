@@ -1,0 +1,24 @@
+#################################################
+#Function to format number with comma separators#
+#################################################
+def thousands_with_commas(userinput):
+    try:
+        number = int(userinput)
+        if number > 0:
+          return "{:,}".format(number)
+        else:
+           print 'The input is not a positive integer. Try again.'
+    except ValueError:
+           print 'The input is not an integer.' 
+
+
+
+
+>>> thousands_with_commas('abc')
+The input is not an integer.
+>>> thousands_with_commas(-123)
+The input is not a positive integer. Try again.
+>>> thousands_with_commas(12)
+'12'
+>>> thousands_with_commas(123678)
+'123,678'

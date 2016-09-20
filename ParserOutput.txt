@@ -1,0 +1,61 @@
+
+#Program to parse a given output
+
+
+import re
+import sys
+#####################################################
+#Function to create a dictionary for a given output.#
+#Test data used: 				    #
+#fab0:						    #
+#    Name               Status      		    #
+#                       (Physical/Monitored)	    #
+#    xe-0/0/9           Up   / Up        	    #
+#    xe-1/0/9           Up   / Up        	    #
+#fab1:						    #
+#    Name               Status      		    #      
+#                       (Physical/Monitored)	    #
+#    xe-6/0/9           Up   / Up        	    #
+#    xe-7/0/9           Up   / Up		    #
+#####################################################
+def output_parser ( output ):
+    output = output.splitlines()
+    parser={}
+    fab_id = ""
+    xe_id = ""
+    for line in output:
+        print "Input line: " + line
+        match = 0
+        match2 = 0
+        match = re.search("fab",line)
+        if match:
+            fab_id='{:.4}'.format(line)
+            print "fab_id : " + fab_id
+            parser[fab_id]={}
+            print  parser
+        match2 = re.search("xe",line)
+        if match2:
+            spline= line.split("     ")
+            xename = spline[0].strip(' ')
+            print "XE: " + xename
+            parser[fab_id][xename]=spline[2].strip(' ')
+            print  parser
+    print parser
+    return parser
+
+parsed_output =output_parser ( output)
+
+
+#####################################################
+#Function to print the status for a given interface #
+#under the requested Fab			    #
+#####################################################
+
+def print_status( parsed_output ):
+    for key1 in dict.keys(parsed_output):
+        for key2 in parsed_output[key1]:
+            phy = parsed_output[key1][key2].split('/')[0]
+            mon = parsed_output[key1][key2].split('/')[1]
+            print "Fab: " + key1 + "  Xe: " + key2   + " Phyical Status " + phy + " and Monitoring Status " + mon
+
+a = print_status (parsed_output )
